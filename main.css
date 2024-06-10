@@ -26,7 +26,7 @@
   height: 100%;
   position: fixed;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 5;
+  z-index: 6;
   padding: 30px;
   visibility: hidden;
   opacity: 0;
@@ -42,4 +42,44 @@
   background: white;
   border-radius: 5px;
   padding: 30px;
+}
+
+.dark {
+  background: black;
+  color: white;
+}
+
+.slide-container {
+  width: 300vw;
+  transition: all 1s;
+}
+
+.slide-box {
+  width: 100vw;
+  float: left;
+}
+
+.slide-box img {
+  width: 100%;
+}
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 5;
+}
+
+.main-bg {
+  width: 100%;
+  background: grey;
+  padding: 120px 20px 120px 20px;
+}
+
+.navbar-brand {
+  font-size: 30px;
+}
+
+.progressBar {
+  padding: 5px;
+  background-color: red;
 }

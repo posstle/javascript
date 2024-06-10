@@ -31,11 +31,13 @@
 
     <nav class="navbar navbar-light bg-light">
       <div class="container-fluid">
-        <span class="navbar-brand">Navbar</span>
+        <span class="navbar-brand">JSSHOP</span>
+        <span class="badge bg-dark" id="mode">Dark 🔄</span>
         <button class="navbar-toggler" type="button">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
+      <div class="progressBar"></div>
     </nav>
 
     <ul class="list-group">
@@ -46,7 +48,41 @@
       <li class="list-group-item">And a fifth one</li>
     </ul>
 
-    <button id="loginBtn">로그인</button>
+    <div class="main-bg">
+      <h4>Shirts on Sale</h4>
+      <button id="loginBtn" class="btn btn-danger">로그인</button>
+    </div>
+
+    <div class="lorem" style="width: 200px; height: 100px; overflow-y: scroll">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae voluptas voluptatum minus praesentium fugit debitis
+      at, laborum ipsa itaque placeat sit, excepturi eius. Nostrum perspiciatis, eligendi quae consectetur praesentium
+      exercitationem.
+    </div>
+
+    <div style="height: 1000px"></div>
+
+    <!-- <div class="alert alert-danger"><span>5</span>초 이내 구매시 사은품 증정!</div> -->
+
+    <div style="overflow: hidden">
+      <div class="slide-container">
+        <div class="slide-box">
+          <img src="car1.png" alt="" />
+        </div>
+        <div class="slide-box">
+          <img src="car2.png" alt="" />
+        </div>
+        <div class="slide-box">
+          <img src="car3.png" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <button class="slide-1">1</button>
+    <button class="slide-2">2</button>
+    <button class="slide-3">3</button>
+
+    <button class="next">다음</button>
+    <button class="qrev">이전</button>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -60,6 +96,9 @@
       referrerpolicy="no-referrer"
     ></script>
     <script>
+      let count = 0
+      let second = 5
+
       document.querySelector('.navbar-toggler').addEventListener('click', function () {
         document.querySelector('.list-group').classList.toggle('show')
       })
@@ -72,7 +111,7 @@
         document.querySelector('.black-bg').classList.remove('show-modal')
       })
 
-      document.querySelector('#submitBtn').addEventListener('click', (e) => {
+      document.querySelector('form').addEventListener('submit', (e) => {
         const id = document.getElementById('id').value
         const password = document.getElementById('password').value
 
@@ -82,6 +121,98 @@
         } else if (id.length < 6 || password.length < 6) {
           alert('아이디와 비밀번호를 6자 이상으로 입력하세요.')
           e.preventDefault()
+        } else if (/[A-Z]/.test(password) == false) {
+          alert('대문자 하나 이상을 포함해주세요!')
+          e.preventDefault()
+        }
+      })
+
+      document.getElementById('mode').addEventListener('click', () => {
+        count += 1
+
+        if (count % 2 == 1) {
+          document.getElementById('mode').innerText = 'Light 🔄'
+        } else {
+          document.getElementById('mode').innerText = 'Dark 🔄'
+        }
+      })
+
+      //   setInterval(() => {
+      //     second -= 1
+      //     document.querySelector('.alert span').innerText = second
+
+      //     if (second == 0) {
+      //       document.querySelector('.alert').style.display = 'none'
+      //     }
+      //   }, 1000)
+
+      let currentNum = 1
+
+      document.querySelector('.slide-1').addEventListener('click', () => {
+        currentNum = 1
+        document.querySelector('.slide-container').style.transform = 'translateX(0)'
+      })
+
+      document.querySelector('.slide-2').addEventListener('click', () => {
+        currentNum = 2
+        document.querySelector('.slide-container').style.transform = 'translateX(-100vw)'
+      })
+
+      document.querySelector('.slide-3').addEventListener('click', () => {
+        currentNum = 3
+        document.querySelector('.slide-container').style.transform = 'translateX(-200vw)'
+      })
+
+      document.querySelector('.next').addEventListener('click', () => {
+        const changeWidth = currentNum * 100
+        console.log(changeWidth)
+
+        document.querySelector('.slide-container').style.transform = `translateX(-${changeWidth}vw)`
+
+        if (currentNum < document.querySelectorAll('.slide-box').length - 1) {
+          currentNum += 1
+        }
+      })
+
+      document.querySelector('.qrev').addEventListener('click', () => {
+        currentNum -= 1
+        let changeWidth = currentNum * 100
+
+        document.querySelector('.slide-container').style.transform = `translateX(-${changeWidth}vw)`
+      })
+
+      window.addEventListener('scroll', () => {
+        const navBar = document.querySelector('.navbar-brand')
+
+        if (window.scrollY < 100) {
+          navBar.style.fontSize = '30px'
+        } else {
+          navBar.style.fontSize = '20px'
+        }
+
+        //실제 높이
+        let windowHeight = document.documentElement.scrollHeight
+        //화면 높이
+        let clientHeight = document.documentElement.clientHeight
+        //
+        window.scrollY
+
+        let progress = ((clientHeight + window.scrollY) / windowHeight) * 100
+        console.log(progress)
+
+        document.querySelector('.progressBar').style.width = progress + '%'
+      })
+
+      document.querySelector('.lorem').addEventListener('scroll', () => {
+        //스크롤 했을 때 위에서 부터 얼마나 스크롤했는지의 높이
+        let scrollAmount = document.querySelector('.lorem').scrollTop
+        //div박스의 실제높이
+        let divHeight = document.querySelector('.lorem').scrollHeight
+        //클라이언트에게 화면에 출력되는 div박스의 높이
+        let clientHeight = document.querySelector('.lorem').clientHeight
+
+        if (divHeight == scrollAmount + clientHeight) {
+          alert('스크롤이 끝났습니다.')
         }
       })
     </script>
